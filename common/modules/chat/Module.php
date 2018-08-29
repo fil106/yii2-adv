@@ -3,7 +3,7 @@
 namespace common\modules\chat;
 
 /**
- * chat module definition class
+ * messages module definition class
  */
 class Module extends \yii\base\Module
 {
