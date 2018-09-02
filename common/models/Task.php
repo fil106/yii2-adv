@@ -3,6 +3,8 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "task".
@@ -11,6 +13,7 @@ use Yii;
  * @property string $title
  * @property string $description
  * @property int $estimation
+ * @property int $project_id
  * @property int $executor_id
  * @property int $started_at
  * @property int $completed_at
@@ -33,6 +36,14 @@ class Task extends \yii\db\ActiveRecord
         return 'task';
     }
 
+    public function behaviors()
+    {
+        return [
+            ['class' => TimestampBehavior::class],
+            ['class' => BlameableBehavior::class],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -41,7 +52,7 @@ class Task extends \yii\db\ActiveRecord
         return [
             [['title', 'description', 'estimation', 'create_by', 'created_at'], 'required'],
             [['description'], 'string'],
-            [['estimation', 'executor_id', 'started_at', 'completed_at', 'create_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
+            [['estimation', 'project_id', 'executor_id', 'started_at', 'completed_at', 'create_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
             [['title'], 'string', 'max' => 255],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
             [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['executor_id' => 'id']],
@@ -59,6 +70,7 @@ class Task extends \yii\db\ActiveRecord
             'title' => 'Title',
             'description' => 'Description',
             'estimation' => 'Estimation',
+            'project_id' => 'Project ID',
             'executor_id' => 'Executor ID',
             'started_at' => 'Started At',
             'completed_at' => 'Completed At',
@@ -91,6 +103,14 @@ class Task extends \yii\db\ActiveRecord
     public function getCreateBy()
     {
         return $this->hasOne(User::className(), ['id' => 'create_by']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProject()
+    {
+        return $this->hasOne(User::className(), ['id' => 'project_id']);
     }
 
     /**
