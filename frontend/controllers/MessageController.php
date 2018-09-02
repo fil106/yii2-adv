@@ -5,7 +5,7 @@ namespace frontend\controllers;
 
 use yii\web\Controller;
 
-class MessagesController extends Controller
+class MessageController extends Controller
 {
     public function actionIndex()
     {

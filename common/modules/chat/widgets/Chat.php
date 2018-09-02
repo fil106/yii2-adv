@@ -17,6 +17,6 @@ class Chat extends \yii\bootstrap\Widget
     public function run()
     {
         $this->view->registerJsVar('wsPort', $this->port);
-        return $this->render('messages');
+        return $this->render('chat');
     }
 }

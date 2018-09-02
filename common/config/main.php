@@ -11,7 +11,7 @@ return [
         ],
     ],
     'modules' => [
-        'messages' => [
+        'chat' => [
             'class' => 'common\modules\chat\Module',
         ],
     ],

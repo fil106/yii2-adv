@@ -1,16 +1,30 @@
-var websocketPort = wsPort ? wsPort : 8080,
-    conn = new WebSocket('ws://127.0.0.1:' + websocketPort),
-    idMessages = 'chatMessages';
+function chatConnect() {
 
-conn.onopen = function(e) {
-    console.log("Connection established!");
-};
+    var name = document.getElementById('chatName').value;
+    var chatNotif = document.getElementById('chatNotif');
 
-conn.onmessage = function(e) {
-    document.getElementById(idMessages).value = e.data + '\n' + document.getElementById(idMessages).value;
-    console.log(e.data);
-};
+    if(name !== '') {
 
-conn.onerror = function(e) {
-        console.log("Connection fail!");
-};
+        chatNotif.textContent = '';
+
+        var websocketPort = wsPort ? wsPort : 8080,
+            conn = new WebSocket('ws://127.0.0.1:' + websocketPort),
+            idMessages = 'chatMessages';
+
+        conn.onopen = function(e) {
+            console.log("Connection established! Your name - " + name);
+        };
+
+        conn.onmessage = function(e) {
+            document.getElementById(idMessages).value = e.data + '\n' + document.getElementById(idMessages).value;
+            console.log(e.data);
+        };
+
+        conn.onerror = function(e) {
+            console.log("Connection fail!");
+        };
+
+    } else {
+       chatNotif.textContent = 'Введите Ваше имя!';
+    }
+}

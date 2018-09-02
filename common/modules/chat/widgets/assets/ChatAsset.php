@@ -15,7 +15,7 @@ class ChatAsset extends AssetBundle
 //        'css/site.css',
 //    ];
     public $js = [
-        'js/messages.js',
+        'js/chat.js',
     ];
 //    public $depends = [
 //        'yii\web\YiiAsset',
