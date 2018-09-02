@@ -5,6 +5,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\validators\UniqueValidator;
 use yii\web\IdentityInterface;
 
 /**
@@ -23,8 +24,11 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    private $_password;
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
+    const SCENARIO_ADMIN_CREATE = 'ADMIN_CREATE';
+    const SCENARIO_ADMIN_UPDATE = 'ADMIN_UPDATE';
 
 
     /**
@@ -53,7 +57,26 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+
+            [['password', 'email', 'username'], 'required', 'on' => self::SCENARIO_ADMIN_CREATE],
+            [['email', 'username'], 'required', 'on' => self::SCENARIO_ADMIN_UPDATE],
+
+            ['email', 'email', 'on' => [self::SCENARIO_ADMIN_CREATE, self::SCENARIO_ADMIN_UPDATE]],
+            ['username', UniqueValidator::class, 'on' => self::SCENARIO_ADMIN_CREATE],
         ];
+    }
+
+    public function beforeSave($insert)
+    {
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }
+
+        if($insert) {
+            $this->generateAuthKey();
+        }
+
+        return true;
     }
 
     /**
@@ -161,6 +184,15 @@ class User extends ActiveRecord implements IdentityInterface
     public function setPassword($password)
     {
         $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+        $this->_password = $password;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->_password;
     }
 
     /**
