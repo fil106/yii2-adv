@@ -3,6 +3,8 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "project".
@@ -10,6 +12,7 @@ use Yii;
  * @property int $id
  * @property string $title
  * @property string $description
+ * @property bool $active
  * @property int $created_by
  * @property int $updated_by
  * @property int $created_at
@@ -29,6 +32,14 @@ class Project extends \yii\db\ActiveRecord
         return 'project';
     }
 
+    public function behaviors()
+    {
+        return [
+            ['class' => TimestampBehavior::class],
+            ['class' => BlameableBehavior::class],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -37,6 +48,7 @@ class Project extends \yii\db\ActiveRecord
         return [
             [['title', 'description', 'created_by', 'created_at'], 'required'],
             [['description'], 'string'],
+            [['active', 'boolean']],
             [['created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
             [['title'], 'string', 'max' => 255],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
@@ -53,6 +65,7 @@ class Project extends \yii\db\ActiveRecord
             'id' => 'ID',
             'title' => 'Title',
             'description' => 'Description',
+            'active' => 'Active',
             'created_by' => 'Created By',
             'updated_by' => 'Updated By',
             'created_at' => 'Created At',
