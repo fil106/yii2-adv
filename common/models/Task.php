@@ -110,7 +110,7 @@ class Task extends \yii\db\ActiveRecord
      */
     public function getProject()
     {
-        return $this->hasOne(User::className(), ['id' => 'project_id']);
+        return $this->hasOne(Project::className(), ['id' => 'project_id']);
     }
 
     /**
