@@ -28,8 +28,8 @@ class m180825_123826_create_project_user_table extends Migration
      */
     public function safeDown()
     {
-		$this->dropForeignKey('fk_projectUser_user', 'project_user');
-		$this->dropForeignKey('fk_projectUser_project', 'project_user');
+		$this->dropForeignKey('fk_project-user_user', 'project_user');
+		$this->dropForeignKey('fk_project-user_project', 'project_user');
         $this->dropTable('project_user');
     }
 }
