@@ -18,13 +18,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'estimation')->textInput() ?>
 
+    <?= $form->field($model, 'project_id')->textInput() ?>
+
     <?= $form->field($model, 'executor_id')->textInput() ?>
 
     <?= $form->field($model, 'started_at')->textInput() ?>
 
     <?= $form->field($model, 'completed_at')->textInput() ?>
 
-    <?= $form->field($model, 'create_by')->textInput() ?>
+    <?= $form->field($model, 'created_by')->textInput() ?>
 
     <?= $form->field($model, 'updated_by')->textInput() ?>
 

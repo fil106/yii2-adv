@@ -6,6 +6,7 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\ProjectSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $model \common\models\Project */
 
 $this->title = 'Projects';
 $this->params['breadcrumbs'][] = $this->title;
@@ -29,10 +30,20 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'title',
             'description:ntext',
-            'created_by',
-            'updated_by',
-            //'created_at',
-            //'updated_at',
+            [
+                'attribute' => 'created_by',
+                'value' => function($model) {
+                    return $model->createdBy->username;
+                },
+            ],
+            [
+                'attribute' => 'updated_by',
+                'value' => function($model) {
+                    return $model->updatedBy->username;
+                },
+            ],
+            'created_at:datetime',
+            'updated_at:datetime',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

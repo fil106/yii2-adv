@@ -28,13 +28,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'username',
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
-            //'email:email',
-            //'status',
-            //'created_at',
-            //'updated_at',
+            'email:email',
+            [
+                'attribute' => 'status',
+                'filter' => \common\models\User::STATUSES,
+                'value' => function(\common\models\User $model) {
+                    return \common\models\User::STATUSES[$model->status];
+                }
+            ],
+            'created_at:datetime',
+            'updated_at:datetime',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

@@ -26,13 +26,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'estimation') ?>
 
-    <?= $form->field($model, 'executor_id') ?>
+    <?= $form->field($model, 'project_id') ?>
+
+    <?php // echo $form->field($model, 'executor_id') ?>
 
     <?php // echo $form->field($model, 'started_at') ?>
 
     <?php // echo $form->field($model, 'completed_at') ?>
 
-    <?php // echo $form->field($model, 'create_by') ?>
+    <?php // echo $form->field($model, 'created_by') ?>
 
     <?php // echo $form->field($model, 'updated_by') ?>
 

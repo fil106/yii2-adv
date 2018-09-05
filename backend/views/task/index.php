@@ -6,6 +6,7 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\TaskSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $model \common\models\Task */
 
 $this->title = 'Tasks';
 $this->params['breadcrumbs'][] = $this->title;
@@ -30,10 +31,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'description:ntext',
             'estimation',
-            'executor_id',
+            [
+                'attribute' => 'project_id',
+                'value' => function($model) {
+                    return $model->project->title;
+                }
+            ],
+            //'executor_id',
             //'started_at',
             //'completed_at',
-            //'create_by',
+            //'created_by',
             //'updated_by',
             //'created_at',
             //'updated_at',
