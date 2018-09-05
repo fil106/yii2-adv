@@ -11,6 +11,8 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
+    'layout' => 'adminlte/main',
+    'language' => 'ru',
     'modules' => [],
 	'homeUrl' => '',
     'components' => [
@@ -18,13 +20,13 @@ return [
             'csrfParam' => '_csrf-backend',
 			'baseUrl' => '',
         ],
-		'view' => [
-			'theme' => [
-				'pathMap' => [
-					'@app/views' => '@vendor/dmstr/yii2-adminlte-asset/example-views/yiisoft/yii2-app'
-				],
-			],
-		],
+//		'view' => [
+//			'theme' => [
+//				'pathMap' => [
+//					'@app/views' => '@vendor/dmstr/yii2-adminlte-asset/example-views/yiisoft/yii2-app'
+//				],
+//			],
+//		],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
@@ -52,7 +54,7 @@ return [
             'rules' => [
                 '<controller:[\w-]+>/<id:\d+>' => '<controller>/view',
                 '<controller:[\w-]+>/<action:[\w-]+>/<id:\d+>' => '<controller>/<action>/',
-                '<controller:[\w-]+>s' => '<controller>/index',
+                '<controller:(task|project|user)>s' => '<controller>/index',
             ],
         ],
     ],
