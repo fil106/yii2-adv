@@ -18,7 +18,7 @@ class TaskSearch extends Task
     public function rules()
     {
         return [
-            [['id', 'estimation', 'executor_id', 'started_at', 'completed_at', 'create_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'estimation', 'project_id', 'executor_id', 'started_at', 'completed_at', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
             [['title', 'description'], 'safe'],
         ];
     }
@@ -61,10 +61,11 @@ class TaskSearch extends Task
         $query->andFilterWhere([
             'id' => $this->id,
             'estimation' => $this->estimation,
+            'project_id' => $this->project_id,
             'executor_id' => $this->executor_id,
             'started_at' => $this->started_at,
             'completed_at' => $this->completed_at,
-            'create_by' => $this->create_by,
+            'created_by' => $this->created_by,
             'updated_by' => $this->updated_by,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

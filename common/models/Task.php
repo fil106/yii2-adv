@@ -17,14 +17,14 @@ use yii\behaviors\TimestampBehavior;
  * @property int $executor_id
  * @property int $started_at
  * @property int $completed_at
- * @property int $create_by
+ * @property int $created_by
  * @property int $updated_by
  * @property int $created_at
  * @property int $updated_at
  *
  * @property User $updatedBy
  * @property User $executor
- * @property User $createBy
+ * @property User $createdBy
  */
 class Task extends \yii\db\ActiveRecord
 {
@@ -39,8 +39,8 @@ class Task extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            ['class' => TimestampBehavior::class],
-            ['class' => BlameableBehavior::class],
+            ['class' => TimestampBehavior::className()],
+            ['class' => BlameableBehavior::className()],
         ];
     }
 
@@ -50,13 +50,13 @@ class Task extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'description', 'estimation', 'create_by', 'created_at'], 'required'],
+            [['title', 'description', 'estimation', 'created_by', 'created_at'], 'required'],
             [['description'], 'string'],
-            [['estimation', 'project_id', 'executor_id', 'started_at', 'completed_at', 'create_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
+            [['estimation', 'project_id', 'executor_id', 'started_at', 'completed_at', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
             [['title'], 'string', 'max' => 255],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
             [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['executor_id' => 'id']],
-            [['create_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['create_by' => 'id']],
+            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
         ];
     }
 
@@ -74,7 +74,7 @@ class Task extends \yii\db\ActiveRecord
             'executor_id' => 'Executor ID',
             'started_at' => 'Started At',
             'completed_at' => 'Completed At',
-            'create_by' => 'Create By',
+            'created_by'=> 'Created By',
             'updated_by' => 'Updated By',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
@@ -100,9 +100,9 @@ class Task extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCreateBy()
+    public function getCreatedBy()
     {
-        return $this->hasOne(User::className(), ['id' => 'create_by']);
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
 
     /**

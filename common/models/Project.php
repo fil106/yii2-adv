@@ -12,15 +12,16 @@ use yii\behaviors\TimestampBehavior;
  * @property int $id
  * @property string $title
  * @property string $description
- * @property bool $active
+ * @property int $active
  * @property int $created_by
  * @property int $updated_by
  * @property int $created_at
  * @property int $updated_at
  *
- * @property User $updatedBy
  * @property User $createdBy
+ * @property User $updatedBy
  * @property ProjectUser[] $projectUsers
+ * @property Task[] $tasks
  */
 class Project extends \yii\db\ActiveRecord
 {
@@ -35,8 +36,8 @@ class Project extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            ['class' => TimestampBehavior::class],
-            ['class' => BlameableBehavior::class],
+            TimestampBehavior::className(),
+            BlameableBehavior::className(),
         ];
     }
 
@@ -48,11 +49,10 @@ class Project extends \yii\db\ActiveRecord
         return [
             [['title', 'description', 'created_by', 'created_at'], 'required'],
             [['description'], 'string'],
-            [['active', 'boolean']],
-            [['created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
+            [['active', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
             [['title'], 'string', 'max' => 255],
-            [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
+            [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
         ];
     }
 
@@ -76,14 +76,6 @@ class Project extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUpdatedBy()
-    {
-        return $this->hasOne(User::className(), ['id' => 'updated_by']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getCreatedBy()
     {
         return $this->hasOne(User::className(), ['id' => 'created_by']);
@@ -92,9 +84,25 @@ class Project extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getUpdatedBy()
+    {
+        return $this->hasOne(User::className(), ['id' => 'updated_by']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getProjectUsers()
     {
         return $this->hasMany(ProjectUser::className(), ['project_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTasks()
+    {
+        return $this->hasMany(Task::className(), ['project_id' => 'id']);
     }
 
     /**
