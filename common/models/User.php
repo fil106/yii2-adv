@@ -58,6 +58,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function behaviors()
     {
+        $host = Yii::$app->params['front.scheme'].Yii::$app->params['front.domain'];
         return [
             TimestampBehavior::className(),
             [
@@ -66,7 +67,7 @@ class User extends ActiveRecord implements IdentityInterface
                 'scenarios' => [self::SCENARIO_ADMIN_UPDATE, self::SCENARIO_ADMIN_CREATE],
                 'placeholder' => '@frontend/web/upload/avatar/default.jpg',
                 'path' => '@frontend/web/upload/avatar/{id}',
-                'url' => 'http://yii2-adv.loc/upload/avatar/{id}',
+                'url' => $host.'/upload/avatar/{id}',
                 'thumbs' => [
                     self::AVATAR_THUMB => ['width' => 400, 'quality' => 90],
                     self::AVATAR_ICO => ['width' => 50, 'height' => 50],
@@ -212,7 +213,10 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function setPassword($password)
     {
-        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+        if (!$password) {
+            $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+        }
+
         $this->_password = $password;
     }
 
