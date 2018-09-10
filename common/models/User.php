@@ -6,8 +6,6 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use yii\validators\UniqueValidator;
-use yii\validators\Validator;
 use yii\web\IdentityInterface;
 
 /**
@@ -250,5 +248,13 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    /**
+     * return @object
+     */
+    public function getProjects()
+    {
+        return $this->hasMany(Project::className(), ['']);
     }
 }

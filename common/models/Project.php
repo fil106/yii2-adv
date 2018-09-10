@@ -25,6 +25,17 @@ use yii\behaviors\TimestampBehavior;
  */
 class Project extends \yii\db\ActiveRecord
 {
+
+    const RELATION_PROJECT_USERS = 'projectUsers';
+
+    const STATUS_ACTIVE = 1;
+    const STATUS_NOTACTIVE = 0;
+
+    const STATUSES = [
+        self::STATUS_ACTIVE => 'Активен',
+        self::STATUS_NOTACTIVE => 'Нективен',
+    ];
+
     /**
      * {@inheritdoc}
      */

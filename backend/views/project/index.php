@@ -31,17 +31,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'description:ntext',
             [
-                'attribute' => 'created_by',
-                'value' => function($model) {
-                    return $model->createdBy->username;
-                },
+                'attribute' => 'active',
+                'filter' => \common\models\Project::STATUSES,
+                'value' => function(\common\models\Project $model) {
+                    return \common\models\Project::STATUSES[$model->active];
+                }
             ],
-            [
-                'attribute' => 'updated_by',
-                'value' => function($model) {
-                    return $model->updatedBy->username;
-                },
-            ],
+            'createdBy.username',
+            'updatedBy.username',
             'created_at:datetime',
             'updated_at:datetime',
 
