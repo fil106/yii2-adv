@@ -28,32 +28,35 @@ use unclead\multipleinput\MultipleInput;
 
     <?= $form->field($model, 'active')->dropDownList(\common\models\Project::STATUSES) ?>
 
-    <?php
-        echo $form->field($model, \common\models\Project::RELATION_PROJECT_USERS)->widget(MultipleInput::className(), [
-            'max'               => 5,
-            'min'               => 0,
-            'addButtonPosition' => MultipleInput::POS_HEADER,
-            'columns' => [
-                [
-                    'name' => 'project_id',
-                    'type' => 'hiddenInput',
-                    'defaultValue' => $model->id,
-                ],
-                [
-                    'name' => 'user_id',
-                    'type' => 'dropDownList',
-                    'title' => 'User',
-                    'items' => \common\models\User::find()->select('username')->indexBy('id')->column(),
-                ],
-                [
-                    'name' => 'role',
-                    'type' => 'dropDownList',
-                    'title' => 'Role',
-                    'items' => array_combine(['developer','manager','tester'],['developer','manager','tester']),
-                ],
-            ]
-        ])->label(false);
-    ?>
+
+
+        <?= $form->field($model, \common\models\Project::RELATION_PROJECT_USERS)->widget(MultipleInput::className(), [
+                'id'                => 'project-users-widget',
+                'max'               => 5,
+                'min'               => 0,
+                'addButtonPosition' => MultipleInput::POS_HEADER,
+                'columns'           => [
+                    [
+                        'name' => 'project_id',
+                        'type' => 'hiddenInput',
+                        'defaultValue' => $model->id,
+                    ],
+                    [
+                        'name' => 'user_id',
+                        'type' => 'dropDownList',
+                        'title' => 'User',
+                        'items' => \common\models\User::find()->select('username')->indexBy('id')->column(),
+                    ],
+                    [
+                        'name' => 'role',
+                        'type' => 'dropDownList',
+                        'title' => 'Role',
+                        'items' => \common\models\ProjectUser::ROLES,
+                    ],
+                ]
+            ])->label(false);
+        ?>
+
 
     <div class="form-group row">
         <div class="col-sm-2 col-sm-offset-2">
