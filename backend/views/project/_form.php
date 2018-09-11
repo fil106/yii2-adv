@@ -16,7 +16,7 @@ use unclead\multipleinput\MultipleInput;
             'fieldConfig' => [
                 'horizontalCssClasses' => [
                     'label' => 'col-sm-2',
-                    'offset' => 'col-sm-offset-4',
+                    'offset' => 'col-sm-offset-2',
                 ],
             ],
         ]
@@ -29,12 +29,29 @@ use unclead\multipleinput\MultipleInput;
     <?= $form->field($model, 'active')->dropDownList(\common\models\Project::STATUSES) ?>
 
     <?php
-        echo $form->field($model, 'emails')->widget(MultipleInput::className(), [
-            'max'               => 6,
-            'min'               => 2, // should be at least 2 rows
-            'allowEmptyList'    => false,
-            'enableGuessTitle'  => true,
-            'addButtonPosition' => MultipleInput::POS_HEADER, // show add button in the header
+        echo $form->field($model, \common\models\Project::RELATION_PROJECT_USERS)->widget(MultipleInput::className(), [
+            'max'               => 5,
+            'min'               => 0,
+            'addButtonPosition' => MultipleInput::POS_HEADER,
+            'columns' => [
+                [
+                    'name' => 'project_id',
+                    'type' => 'hiddenInput',
+                    'defaultValue' => $model->id,
+                ],
+                [
+                    'name' => 'user_id',
+                    'type' => 'dropDownList',
+                    'title' => 'User',
+                    'items' => \common\models\User::find()->select('username')->indexBy('id')->column(),
+                ],
+                [
+                    'name' => 'role',
+                    'type' => 'dropDownList',
+                    'title' => 'Role',
+                    'items' => array_combine(['developer','manager','tester'],['developer','manager','tester']),
+                ],
+            ]
         ])->label(false);
     ?>
 

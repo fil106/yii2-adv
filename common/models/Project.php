@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
@@ -49,6 +50,10 @@ class Project extends \yii\db\ActiveRecord
         return [
             TimestampBehavior::className(),
             BlameableBehavior::className(),
+            'saveRelations' => [
+                'class'     => SaveRelationsBehavior::className(),
+                'relations' => ['projectUsers'],
+            ],
         ];
     }
 
