@@ -9,41 +9,65 @@ use yii\bootstrap\ActiveForm;
 ?>
 
 <div class="user-form">
+    <div class="col-md-3">
 
-    <div class="row">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Аватар</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+                </div>
+            </div>
+            <div class="box-body box-profile">
 
-        <?php $form = ActiveForm::begin([
-            'layout' => 'horizontal',
-            'fieldConfig' => [
-                'horizontalCssClasses' => [
-                    'label' => 'col-sm-2',
-                    'offset' => 'col-sm-offset-4',
-                ],
-            ],
-            'options' => ['enctype' => 'multipart/form-data']]); ?>
+                <?= Html::img($model->getThumbUploadUrl('avatar', \common\models\User::AVATAR_THUMB), ['class' => 'img-rounded img-responsive']) ?>
 
-        <?= $form->field($model, 'username')->textInput() ?>
-        <?= $form->field($model, 'email')->textInput() ?>
-        <?= $form->field($model, 'status')->dropDownList(\common\models\User::STATUSES) ?>
-        <?= $form->field($model, 'password')->passwordInput() ?>
-        <?= $form->field($model, 'avatar')->fileInput(['accept' => 'image/*']) ?>
+            </div>
+        </div>
 
     </div>
 
-    <div class="row">
-        <div class="col-sm-4 col-sm-offset-2">
+    <div class="col-md-5">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Данные пользователя</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
 
-            <strong>Current avatar</strong>
+                <?php $form = ActiveForm::begin([
+                    'layout' => 'horizontal',
+                    'fieldConfig' => [
+                        'horizontalCssClasses' => [
+                            'label' => 'col-sm-2',
+                            'offset' => 'col-sm-offset-4',
+                        ],
+                    ],
+                    'options' => ['enctype' => 'multipart/form-data']]); ?>
 
-            <?= Html::img($model->getThumbUploadUrl('avatar', \common\models\User::AVATAR_THUMB), ['class' => 'img-rounded img-responsive']) ?>
+                <?= $form->field($model, 'username')->textInput() ?>
+                <?= $form->field($model, 'email')->textInput() ?>
+                <?= $form->field($model, 'status')->dropDownList(\common\models\User::STATUSES) ?>
+                <?= $form->field($model, 'password')->passwordInput() ?>
+                <?= $form->field($model, 'avatar')->fileInput(['accept' => 'image/*']) ?>
 
+            </div>
+            <div class="box-footer">
+                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success btn-flat']) ?>
+                <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
+                    'class' => 'btn btn-danger btn-flat pull-right',
+                    'data' => [
+                        'confirm' => 'Вы действительно хотите удалить пользователся?',
+                        'method' => 'post',
+                    ],
+                ]) ?>
+            </div>
         </div>
-    </div>
 
-    <div class="form-group row">
-        <div class="col-sm-2 col-sm-offset-2">
-            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-        </div>
     </div>
 
     <?php ActiveForm::end(); ?>

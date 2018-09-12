@@ -8,45 +8,45 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $model \common\models\Task */
 
-$this->title = 'Tasks';
+$this->title = 'Задачи';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="task-index">
+    <div class="box box-success">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php Pjax::begin(); ?>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+        <div class="box-header with-border">
+            <h3 class="box-title"><?= Html::encode($this->title) ?></h3>
+        </div>
 
-    <p>
-        <?= Html::a('Create Task', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+        <?php Pjax::begin(); ?>
+        <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+        <div class="box-body">
+            <p>
+                <?= Html::a('Создать задачу', ['create'], ['class' => 'btn btn-success btn-flat']) ?>
+            </p>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'columns' => [
+//                    ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'title',
-            'description:ntext',
-            'estimation',
-            [
-                'attribute' => 'project_id',
-                'value' => function($model) {
-                    return $model->project->title;
-                }
-            ],
-            //'executor_id',
-            //'started_at',
-            //'completed_at',
-            //'created_by',
-            //'updated_by',
-            //'created_at',
-            //'updated_at',
+//                    'id',
+                    'title',
+                    'description:ntext',
+                    'estimation',
+                    [
+                        'attribute' => 'project_id',
+                        'value' => function($model) {
+                            return $model->project->title;
+                        }
+                    ],
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-    <?php Pjax::end(); ?>
+                    ['class' => 'yii\grid\ActionColumn'],
+                ],
+            ]); ?>
+            <?php Pjax::end(); ?>
+        </div>
+    </div>
+</div>
 </div>

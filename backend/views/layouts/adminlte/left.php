@@ -6,13 +6,12 @@
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
-                    ['label' => 'Menu', 'options' => ['class' => 'header']],
-                    ['label' => 'Users', 'icon' => 'file-code-o', 'url' => ['/users']],
-                    ['label' => 'Projects', 'icon' => 'dashboard', 'url' => ['/projects']],
-                    ['label' => 'Tasks', 'icon' => 'dashboard', 'url' => ['/tasks']],
+                    ['label' => 'Пользователи', 'icon' => 'file-code-o', 'url' => ['/users']],
+                    ['label' => 'Проекты', 'icon' => 'dashboard', 'url' => ['/projects']],
+                    ['label' => 'Задачи', 'icon' => 'dashboard', 'url' => ['/tasks']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [
-                        'label' => 'Some tools',
+                        'label' => 'Интсрументы',
                         'icon' => 'share',
                         'url' => '#',
                         'items' => [
