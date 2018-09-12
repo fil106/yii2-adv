@@ -17,13 +17,34 @@ dmstr\web\AdminLteAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body class="login-page">
+<body class="hold-transition login-page">
 
-<?php $this->beginBody() ?>
+    <div class="login-box">
 
-    <?= $content ?>
+        <div class="login-logo">
+            <b>Admin</b>LTE</a>
+        </div>
 
-<?php $this->endBody() ?>
+        <div class="login-box-body">
+
+            <p class="login-box-msg">Требуется авторизация</p>
+
+            <?php $this->beginBody() ?>
+
+            <?= $content ?>
+
+            <?php $this->endBody() ?>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <a href="#">Напомнить пароль</a><br>
+                    <a href="register.html" class="text-center">Зарегистрироваться</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 </body>
 </html>
 <?php $this->endPage() ?>
