@@ -54,9 +54,9 @@ return [
                         'api\user',
                     ]
                 ],
-                '<controller:[\w-]+>/<id:\d+>' => '<controller>/view',
-                '<controller:[\w-]+>/<action:[\w-]+>/<id:\d+>' => '<controller>/<action>/',
-                '<controller:[\w-]+>s' => '<controller>/index',
+                '<controller:(user|project|task)>/<id:\d+>' => '<controller>/view',
+                '<controller:(user|project|task)>/<action:[\w-]+>/<id:\d+>' => '<controller>/<action>/',
+                '<controller:(user|project|task)>s' => '<controller>/index',
             ],
         ],
     ],
