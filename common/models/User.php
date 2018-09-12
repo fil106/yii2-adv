@@ -1,13 +1,11 @@
 <?php
 namespace common\models;
-
 use mohorev\file\UploadImageBehavior;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
-
 /**
  * User model
  *
@@ -34,15 +32,11 @@ class User extends ActiveRecord implements IdentityInterface
         self::STATUS_ACTIVE => 'активен',
         self::STATUS_DELETED => 'удален',
     ];
-
     const SCENARIO_ADMIN_CREATE = 'ADMIN_CREATE';
     const SCENARIO_ADMIN_UPDATE = 'ADMIN_UPDATE';
-
     const AVATAR_THUMB = 'thumb';
     const AVATAR_MIDDLE = 'middle';
     const AVATAR_ICO = 'ico';
-
-
     /**
      * {@inheritdoc}
      */
@@ -50,7 +44,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return '{{%user}}';
     }
-
     /**
      * {@inheritdoc}
      */
@@ -74,7 +67,6 @@ class User extends ActiveRecord implements IdentityInterface
             ],
         ];
     }
-
     /**
      * {@inheritdoc}
      */
@@ -87,26 +79,22 @@ class User extends ActiveRecord implements IdentityInterface
             ['avatar', 'file', 'extensions' => 'png, jpg, gif'],
 
             [['password', 'email', 'username'], 'required', 'on' => self::SCENARIO_ADMIN_CREATE],
-            [['email', 'username'], 'required', 'on' => self::SCENARIO_ADMIN_UPDATE],
+            [['email', 'username', 'password'], 'required', 'on' => self::SCENARIO_ADMIN_UPDATE],
 
             ['email', 'email', 'on' => [self::SCENARIO_ADMIN_CREATE, self::SCENARIO_ADMIN_UPDATE]],
             ['username', 'unique', 'on' => self::SCENARIO_ADMIN_CREATE],
         ];
     }
-
     public function beforeSave($insert)
     {
         if (!parent::beforeSave($insert)) {
             return false;
         }
-
         if($insert) {
             $this->generateAuthKey();
         }
-
         return true;
     }
-
     /**
      * {@inheritdoc}
      */
@@ -114,7 +102,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
     }
-
     /**
      * {@inheritdoc}
      */
@@ -122,7 +109,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
     }
-
     /**
      * Finds user by username
      *
@@ -133,7 +119,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
     }
-
     /**
      * Finds user by password reset token
      *
@@ -145,13 +130,11 @@ class User extends ActiveRecord implements IdentityInterface
         if (!static::isPasswordResetTokenValid($token)) {
             return null;
         }
-
         return static::findOne([
             'password_reset_token' => $token,
             'status' => self::STATUS_ACTIVE,
         ]);
     }
-
     /**
      * Finds out if password reset token is valid
      *
@@ -163,12 +146,10 @@ class User extends ActiveRecord implements IdentityInterface
         if (empty($token)) {
             return false;
         }
-
         $timestamp = (int) substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         return $timestamp + $expire >= time();
     }
-
     /**
      * {@inheritdoc}
      */
@@ -176,7 +157,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->getPrimaryKey();
     }
-
     /**
      * {@inheritdoc}
      */
@@ -184,7 +164,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->auth_key;
     }
-
     /**
      * {@inheritdoc}
      */
@@ -192,7 +171,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->getAuthKey() === $authKey;
     }
-
     /**
      * Validates password
      *
@@ -203,7 +181,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return Yii::$app->security->validatePassword($password, $this->password_hash);
     }
-
     /**
      * Generates password hash from password and sets it to the model
      *
@@ -211,13 +188,11 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function setPassword($password)
     {
-        if (!$password) {
-            $this->password_hash = Yii::$app->security->generatePasswordHash($password);
-        }
+
+        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
 
         $this->_password = $password;
     }
-
     /**
      * @return string
      */
@@ -225,7 +200,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->_password;
     }
-
     /**
      * Generates "remember me" authentication key
      */
@@ -233,7 +207,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
     }
-
     /**
      * Generates new password reset token
      */
@@ -241,7 +214,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
-
     /**
      * Removes password reset token
      */
@@ -249,7 +221,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
-
     /**
      * return @object
      */
