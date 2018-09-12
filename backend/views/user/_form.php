@@ -53,18 +53,20 @@ use yii\bootstrap\ActiveForm;
                 <?= $form->field($model, 'email')->textInput() ?>
                 <?= $form->field($model, 'status')->dropDownList(\common\models\User::STATUSES) ?>
                 <?= $form->field($model, 'password')->passwordInput() ?>
-                <?= $form->field($model, 'avatar')->fileInput(['accept' => 'image/*']) ?>
+                <?= $form->field($model, 'avatar')->fileInput(['accept' => 'image/*'])->label('Аватар') ?>
 
             </div>
             <div class="box-footer">
-                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success btn-flat']) ?>
-                <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
-                    'class' => 'btn btn-danger btn-flat pull-right',
-                    'data' => [
-                        'confirm' => 'Вы действительно хотите удалить пользователся?',
-                        'method' => 'post',
-                    ],
-                ]) ?>
+                <p class="pull-right">
+                    <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success btn-flat']) ?>
+                    <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
+                        'class' => 'btn btn-danger btn-flat',
+                        'data' => [
+                            'confirm' => 'Вы действительно хотите удалить пользователся?',
+                            'method' => 'post',
+                        ],
+                    ]) ?>
+                </p>
             </div>
         </div>
 
