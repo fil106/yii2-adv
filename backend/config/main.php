@@ -20,13 +20,6 @@ return [
             'csrfParam' => '_csrf-backend',
 			'baseUrl' => '',
         ],
-//		'view' => [
-//			'theme' => [
-//				'pathMap' => [
-//					'@app/views' => '@vendor/dmstr/yii2-adminlte-asset/example-views/yiisoft/yii2-app'
-//				],
-//			],
-//		],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
@@ -52,9 +45,9 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                '<controller:[\w-]+>/<id:\d+>' => '<controller>/view',
-                '<controller:[\w-]+>/<action:[\w-]+>/<id:\d+>' => '<controller>/<action>/',
-                '<controller:(task|project|user)>s' => '<controller>/index',
+                '<controller:(user|project|task)>/<id:\d+>' => '<controller>/view',
+                '<controller:(user|project|task)>/<action:[\w-]+>/<id:\d+>' => '<controller>/<action>/',
+                '<controller:(user|project|task)>s' => '<controller>/index',
             ],
         ],
     ],
