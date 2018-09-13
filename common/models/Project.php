@@ -48,8 +48,8 @@ class Project extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            'timestamp'     => TimestampBehavior::className(),
-            'blameable'     => BlameableBehavior::className(),
+            ['class' => TimestampBehavior::className()],
+            ['class' => BlameableBehavior::className()],
             'saveRelations' => [
                 'class'     => SaveRelationsBehavior::className(),
                 'relations' => [self::RELATION_PROJECT_USERS],
@@ -63,7 +63,7 @@ class Project extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'description', 'created_by', 'created_at'], 'required'],
+            [['title', 'description'], 'required'],
             [['description'], 'string'],
             [['active', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
             [['title'], 'string', 'max' => 255],
