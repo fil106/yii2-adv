@@ -4,9 +4,9 @@ namespace frontend\modules\api\controllers;
 
 use frontend\modules\api\models\Project;
 use yii\data\ActiveDataProvider;
-use yii\rest\ActiveController;
+use yii\rest\Controller;
 
-class ProjectController extends ActiveController
+class ProjectController extends Controller
 {
     public $modelClass = 'frontend\modules\api\models\Project';
 
