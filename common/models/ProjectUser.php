@@ -88,6 +88,6 @@ class ProjectUser extends \yii\db\ActiveRecord
 
     public static function primaryKey()
     {
-        return ['project_id', 'user_id'];
+        return ['project_id', 'user_id', 'role'];
     }
 }
