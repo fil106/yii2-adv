@@ -2,10 +2,12 @@
 
 namespace common\models;
 
+use common\models\query\ProjectUserQuery;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "project".
@@ -90,6 +92,14 @@ class Project extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return string
+     */
+    public function getProjectName()
+    {
+        return $this->title;
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getCreatedBy()
@@ -106,7 +116,7 @@ class Project extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ProjectUserQuery|ActiveQuery
      */
     public function getProjectUsers()
     {
@@ -128,5 +138,13 @@ class Project extends \yii\db\ActiveRecord
     public static function find()
     {
         return new \common\models\query\ProjectQuery(get_called_class());
+    }
+
+    /**
+     *  return list of Users width id. [1=>'username']
+     */
+    public function getUsersData()
+    {
+        return $this->getProjectUsers()->select('role')->indexBy('user_id')->column();
     }
 }

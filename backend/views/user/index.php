@@ -13,9 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="user-index">
     <div class="box box-success">
 
-        <div class="box-header with-border">
-            <h3 class="box-title"><?= Html::encode($this->title) ?></h3>
-        </div>
+        <div class="box-header with-border"></div>
         <?php Pjax::begin(); ?>
         <div class="box-body">
             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -31,10 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class' => 'table table-bordered table-hover dataTable'
                 ],
                 'columns' => [
-//                    ['class' => 'yii\grid\SerialColumn'],
-
-//                    'id',
-                    'username',
+                    [
+                        'attribute' => 'username',
+                        'value' => function(\common\models\User $model) {
+                            return Html::a($model->username, ['view', 'id' => $model->id]);
+                        },
+                        'format' => 'html'
+                    ],
                     'email:email',
                     [
                         'attribute' => 'status',

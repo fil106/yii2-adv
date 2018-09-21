@@ -14,9 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="project-index">
     <div class="box box-success">
 
-        <div class="box-header with-border">
-            <h3 class="box-title"><?= Html::encode($this->title) ?></h3>
-        </div>
+        <div class="box-header with-border"></div>
         <?php Pjax::begin(); ?>
         <div class="box-body">
             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -32,10 +30,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class' => 'table table-bordered table-hover dataTable'
                 ],
                 'columns' => [
-//                    ['class' => 'yii\grid\SerialColumn'],
-
-//                    'id',
-                    'title',
+                    [
+                        'attribute' => 'title',
+                        'value' => function(\common\models\Project $model) {
+                            return Html::a($model->title, ['view', 'id' => $model->id]);
+                        },
+                        'format' => 'html'
+                    ],
                     'description:ntext',
                     [
                         'attribute' => 'active',
@@ -44,8 +45,18 @@ $this->params['breadcrumbs'][] = $this->title;
                             return \common\models\Project::STATUSES[$model->active];
                         }
                     ],
-                    'createdBy.username',
-                    'updatedBy.username',
+                    [
+                        'attribute' => 'created_by',
+                        'value' => function($model) {
+                            return $model->createdBy->username;
+                        },
+                    ],
+                    [
+                        'attribute' => 'updated_by',
+                        'value' => function($model) {
+                            return $model->updatedBy->username;
+                        },
+                    ],
                     'created_at:datetime',
                     'updated_at:datetime',
 

@@ -14,9 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="task-index">
     <div class="box box-success">
 
-        <div class="box-header with-border">
-            <h3 class="box-title"><?= Html::encode($this->title) ?></h3>
-        </div>
+        <div class="box-header with-border"></div>
 
         <?php Pjax::begin(); ?>
         <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -29,10 +27,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
-//                    ['class' => 'yii\grid\SerialColumn'],
-
-//                    'id',
-                    'title',
+                    [
+                        'attribute' => 'title',
+                        'value' => function(\common\models\Task $model) {
+                            return Html::a($model->title, ['view', 'id' => $model->id]);
+                        },
+                        'format' => 'html'
+                    ],
                     'description:ntext',
                     'estimation',
                     [
@@ -48,5 +49,4 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php Pjax::end(); ?>
         </div>
     </div>
-</div>
 </div>

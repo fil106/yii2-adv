@@ -37,18 +37,18 @@ $user = Yii::$app->user->identity;
                             <?= Html::img($user->getThumbUploadUrl('avatar', \common\models\User::AVATAR_MIDDLE), ['class' => 'img-circle']) ?>
                             <p>
                                 <?= $user->username ?>
-                                <small>Member since <?= Yii::$app->formatter->asDate($user->created_at) ?></small>
+                                <small>Зарегистрирован <?= Yii::$app->formatter->asDate($user->created_at) ?></small>
                             </p>
                         </li>
 
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="/user/update/<?= $user->getId() ?>" class="btn btn-default btn-flat">Profile</a>
+                                <a href="/user/update/<?= $user->getId() ?>" class="btn btn-default btn-flat">Редактировать</a>
                             </div>
                             <div class="pull-right">
                                 <?= Html::a(
-                                    'Sign out',
+                                    'Выход',
                                     ['/site/logout'],
                                     ['data-method' => 'post', 'class' => 'btn btn-default btn-flat']
                                 ) ?>

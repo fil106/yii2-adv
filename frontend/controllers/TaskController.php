@@ -2,9 +2,12 @@
 
 namespace frontend\controllers;
 
+use common\models\Project;
+use common\models\query\TaskQuery;
 use Yii;
 use common\models\Task;
 use common\models\TaskSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -26,6 +29,15 @@ class TaskController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ]
+                ]
+            ]
         ];
     }
 
@@ -37,6 +49,10 @@ class TaskController extends Controller
     {
         $searchModel = new TaskSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize = 10;
+        /** @var $query TaskQuery */
+        $query = $dataProvider->query;
+        $query->byUser(Yii::$app->user->id);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -65,6 +81,7 @@ class TaskController extends Controller
     public function actionCreate()
     {
         $model = new Task();
+        $projects = Project::find()->byUser(Yii::$app->user->identity)->select('title')->indexBy('id')->column();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -72,6 +89,7 @@ class TaskController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'projects' => $projects,
         ]);
     }
 

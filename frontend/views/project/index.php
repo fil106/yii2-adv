@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\ProjectSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Projects';
+$this->title = 'Мои проекты';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="project-index">
@@ -16,24 +16,53 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Project', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'title',
+            [
+                'attribute' => 'title',
+                'value' => function(\common\models\Project $model) {
+                    return Html::a($model->title, ['view', 'id' => $model->id]);
+                },
+                'format' => 'html'
+            ],
+            [
+                'attribute' => \common\models\Project::RELATION_PROJECT_USERS.'.role',
+                'value' => function(\common\models\Project $model) {
+                    return join(
+                        '<br>',
+                        $model
+                            ->getProjectUsers()
+                            ->select('role')
+                            ->where(['user_id' => Yii::$app->user->id])
+                            ->column());
+                },
+                'format' => 'html'
+            ],
             'description:ntext',
-            'active',
-            'created_by',
-            //'updated_by',
-            //'created_at',
-            //'updated_at',
+            [
+                'attribute' => 'active',
+                'filter' => \common\models\Project::STATUSES,
+                'value' => function(\common\models\Project $model) {
+                    return \common\models\Project::STATUSES[$model->active];
+                },
+                'format' => 'html'
+            ],
+            [
+                'attribute' => 'created_by',
+                'value' => function($model) {
+                    return $model->createdBy->username;
+                },
+            ],
+            [
+                'attribute' => 'updated_by',
+                'value' => function($model) {
+                    return $model->updatedBy->username;
+                },
+            ],
+            'created_at:datetime',
+            'updated_at:datetime',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

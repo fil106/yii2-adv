@@ -28,7 +28,7 @@ use unclead\multipleinput\MultipleInput;
 
     <?= $form->field($model, 'active')->dropDownList(\common\models\Project::STATUSES) ?>
 
-
+    <?php if(!$model->isNewRecord) { ?>
 
         <?= $form->field($model, \common\models\Project::RELATION_PROJECT_USERS)->widget(MultipleInput::className(), [
                 'id'                => 'project-users-widget',
@@ -57,10 +57,11 @@ use unclead\multipleinput\MultipleInput;
             ])->label(false);
         ?>
 
+    <?php } ?>
 
     <div class="form-group row">
         <div class="col-sm-2 col-sm-offset-2">
-            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+            <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
         </div>
     </div>
 

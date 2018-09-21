@@ -29,11 +29,7 @@ class SiteController extends Controller
                         'actions' => ['logout', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
-                    ],
-					[
-						'allow' => true,
-						'roles' => ['@'],
-					]
+                    ]
                 ],
             ],
             'verbs' => [
@@ -78,9 +74,12 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
+        $this->layout = 'adminlte/main-login';
+
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+//            return $this->goBack();
+            $this->redirect('/');
         } else {
             $model->password = '';
 

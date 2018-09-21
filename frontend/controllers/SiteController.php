@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\User;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -88,10 +89,11 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            Yii::info('Login: ' . $model->username . ', with ID: ' . User::findByUsername($model->username)->id,'userLoginSuccess');
             return $this->goBack();
         } else {
+            Yii::error('Login: ' . $model->username . ', Pass: ' . $model->password,'userLoginError');
             $model->password = '';
-
             return $this->render('login', [
                 'model' => $model,
             ]);
@@ -131,16 +133,6 @@ class SiteController extends Controller
                 'model' => $model,
             ]);
         }
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return mixed
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
     }
 
     /**
@@ -212,14 +204,4 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
-
-	/**
-	 * Displays Hello World! page.
-	 *
-	 * @return mixed
-	 */
-	public function actionHello()
-	{
-		return $this->render('hello');
-	}
 }

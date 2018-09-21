@@ -2,9 +2,11 @@
 
 namespace backend\controllers;
 
+use common\models\User;
 use Yii;
 use common\models\Project;
 use common\models\ProjectSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -26,6 +28,15 @@ class ProjectController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ]
+                ]
+            ]
         ];
     }
 
@@ -85,8 +96,15 @@ class ProjectController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $projectUsers = $model->getUsersData();
 
         if ($this->loadModel($model) && $model->save()) {
+            //Сравниваем роли те что в базе и те что вносим
+            if($diffRoles = array_diff_assoc($model->getUsersData(), $projectUsers)) {
+                foreach ($diffRoles as $userId => $diffRole) {
+                    Yii::$app->projectService->assignRole($model, User::findOne($userId), $diffRole);
+                }
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -95,6 +113,9 @@ class ProjectController extends Controller
         ]);
     }
 
+    /**
+     *
+     */
     private function loadModel(Project $model)
     {
         $data = Yii::$app->request->post($model->formName());

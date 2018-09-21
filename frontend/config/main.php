@@ -9,7 +9,11 @@ $params = array_merge(
 return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+        'log'   //это значит, что он загружается до запуска самого приложения. Что позволяет,
+                //в случае если приложение не запустилось или запустилось с ошибками,
+                //просматривать служебные сообщения (логи) с соответствующими ошибками/предупреждениями.
+    ],
     'language' => 'ru',
     'controllerNamespace' => 'frontend\controllers',
 	'homeUrl' => '/',
@@ -31,11 +35,27 @@ return [
             'name' => 'advanced-frontend',
         ],
         'log' => [
+            'flushInterval' => 100,
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+                    'levels' => ['info'],
+                    'categories' => ['userLoginSuccess'],
+                    'logFile' => '@runtime/logs/login.log',
+                    'logVars' => [],
+                    'maxLogFiles' => 5
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error'],
+                    'categories' => ['userLoginError'],
+                    'logFile' => '@runtime/logs/loginError.log',
+                    'logVars' => [],
+                    'prefix' => function($message){
+                        return "[incorrect-password]";
+                    },
+                    'maxLogFiles' => 5
                 ],
             ],
         ],
