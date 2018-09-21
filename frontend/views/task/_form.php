@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'estimation')->textInput() ?>
 
-    <?= $form->field($model, 'project_id')->dropDownList($projects) ?>
+    <?= $form->field($model, 'project_id')->dropDownList(\common\models\Project::find()->select('title')->indexBy('id')->column()) ?>
 
 
     <div class="form-group">

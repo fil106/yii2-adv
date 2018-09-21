@@ -34,6 +34,9 @@ return [
 //
 //            }
         ],
+        'taskService' => [
+            'class' => \common\services\TaskService::className(),
+        ],
         'i18n' => [
             'translations' => [
                 'yii2mod.comments' => [

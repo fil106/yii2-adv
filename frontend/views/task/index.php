@@ -64,13 +64,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                 ],
                 'visibleButtons' => [
-                    'update' => function (\common\models\Task $model, $key, $index) {
-                        return Yii::$app->projectService->hasRole($model->project, Yii::$app->user->identity, \common\models\ProjectUser::ROLE_MANAGER);
+                    'update' => function (\common\models\Task $model) {
+                        return Yii::$app->taskService->canManage($model->project, Yii::$app->user->identity);
                     },
-                    'delete' => function (\common\models\Task $model, $key, $index) {
-                        return Yii::$app->projectService->hasRole($model->project, Yii::$app->user->identity, \common\models\ProjectUser::ROLE_MANAGER);
+                    'delete' => function (\common\models\Task $model) {
+                        return Yii::$app->taskService->canComplete($model, Yii::$app->user->identity);
                     },
-                    'take' => function (\common\models\Task $model, $key, $index) {
+                    'take' => function (\common\models\Task $model) {
                         return Yii::$app->projectService->hasRole($model->project, Yii::$app->user->identity, \common\models\ProjectUser::ROLE_DEVELOPER);
                     },
                 ],
