@@ -61,7 +61,7 @@ use unclead\multipleinput\MultipleInput;
 
     <div class="form-group row">
         <div class="col-sm-2 col-sm-offset-2">
-            <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+            <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success btn-flat']) ?>
         </div>
     </div>
 

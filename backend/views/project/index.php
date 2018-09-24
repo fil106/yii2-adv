@@ -39,6 +39,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     'description:ntext',
                     [
+                        'label' => 'Задачи',
+                        'value' => function (\common\models\Project $project) {
+                            return $project->getTasks()->count();
+                        },
+                    ],
+                    [
                         'attribute' => 'active',
                         'filter' => \common\models\Project::STATUSES,
                         'value' => function(\common\models\Project $model) {
@@ -48,19 +54,24 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'created_by',
                         'value' => function($model) {
-                            return $model->createdBy->username;
+                            return Html::a($model->createdBy->username, ['user/view', 'id' => $model->createdBy->id]);
                         },
+                        'format' => 'html',
                     ],
                     [
                         'attribute' => 'updated_by',
                         'value' => function($model) {
-                            return $model->updatedBy->username;
+                            return Html::a($model->updatedBy->username, ['user/view', 'id' => $model->updatedBy->id]);
                         },
+                        'format' => 'html',
                     ],
                     'created_at:datetime',
                     'updated_at:datetime',
 
-                    ['class' => 'yii\grid\ActionColumn'],
+                    [
+                        'header' => 'Действия',
+                        'class' => 'yii\grid\ActionColumn'
+                    ],
                 ],
             ]); ?>
             <?php Pjax::end(); ?>

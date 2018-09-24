@@ -2,6 +2,8 @@
 
 namespace backend\controllers;
 
+use common\models\query\TaskQuery;
+use common\models\TaskSearch;
 use common\models\User;
 use Yii;
 use common\models\Project;
@@ -63,9 +65,20 @@ class ProjectController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        $searchModel = new TaskSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        /* @var $query TaskQuery */
+        $query = $dataProvider->query;
+        $query->getTasksOfProject($id);
+
+        $content = $this->render('view', [
             'model' => $this->findModel($id),
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
         ]);
+
+        return $content;
     }
 
     /**

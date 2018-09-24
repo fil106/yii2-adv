@@ -3,6 +3,7 @@
 namespace common\models\query;
 
 use common\models\Project;
+use common\models\Task;
 
 /**
  * This is the ActiveQuery class for [[\common\models\Task]].
@@ -20,6 +21,12 @@ class TaskQuery extends \yii\db\ActiveQuery
     {
         $query = Project::find()->select('id')->byUser($userId);
         return $this->andWhere(['project_id' => $query]);
+    }
+
+    public function getTasksOfProject($project_id)
+    {
+        $query = Task::find()->select(['id']);
+        return $this->andWhere(['project_id' => $project_id]);
     }
 
     /**

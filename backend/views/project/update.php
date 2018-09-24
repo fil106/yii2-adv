@@ -11,11 +11,21 @@ $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'i
 $this->params['breadcrumbs'][] = 'Редактировать';
 ?>
 <div class="project-update">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title"></h3>
+                    <div class="box-tools pull-right">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+                    </div>
+                </div>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
+                <div class="box-body">
+                <?= $this->render('_form', [
+                    'model' => $model,
+                ]) ?>
+            </div>
+        </div>
+    </div>
 </div>

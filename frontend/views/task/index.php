@@ -36,7 +36,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'description:ntext',
             'estimation',
             [
-                'label' => 'Executor',
+                'label' => 'Название проекта',
+                'attribute' => 'project_id',
+                'value' => function($model) {
+                    return Html::a($model->project->title, ['project/view', 'id' => $model->project->id]);
+                },
+                'format' => 'html'
+            ],
+            [
+                'label' => 'Выполняет',
                 'attribute' => 'executor_id',
                 'value' => function ($model) {
                     return Html::a($model->executor->username, ['user/view', 'id' => $model->executor->id]);
@@ -44,34 +52,59 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
             ],
             [
-                'label' => 'Project Title',
-                'attribute' => 'project_id',
-                'value' => function($model) {
-                    return $model->project->title;
-                }
+                'attribute' => 'created_by',
+                'filter' => \common\models\User::find()->onlyActive(),
+                'value' => function (\common\models\Task $model) {
+                    return Html::a($model->createdBy->username, ['user/view', 'id' => $model->createdBy->id]);
+                },
+                'format' => 'html',
+            ],
+            [
+                'attribute' => 'updated_by',
+                'value' => function (\common\models\Task $model) {
+                    return Html::a($model->updatedBy->username, ['user/view', 'id' => $model->updatedBy->id]);
+                },
+                'format' => 'html',
             ],
             'started_at:datetime',
             'completed_at:datetime',
 
             [
-                'header' => 'Actions',
+                'header' => 'Действия',
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view} {update} {delete} {take}',
+                'template' => '{view} {update} {complete} {take} {delete}',
                 'buttons' => [
                     'take' => function ($url, \common\models\Task $model) {
                         $icon = \yii\bootstrap\Html::icon('hand-left');
-                        return Html::a($icon, ['task/take', ['id' => $model->id]]);
+                        return Html::a($icon, ['take', 'id' => $model->id], [
+                            'data' => [
+                                'confirm' => 'Вы действительно хотите принять задачу?',
+                                'method' => 'post',
+                            ],
+                        ]);
+                    },
+                    'complete' => function ($url, \common\models\Task $model) {
+                        $icon = \yii\bootstrap\Html::icon('remove-circle');
+                        return Html::a($icon, ['complete', 'id' => $model->id], [
+                            'data' => [
+                                'confirm' => 'Вы действительно хотите закончить задачу?',
+                                'method' => 'post',
+                            ]
+                        ]);
                     },
                 ],
                 'visibleButtons' => [
                     'update' => function (\common\models\Task $model) {
                         return Yii::$app->taskService->canManage($model->project, Yii::$app->user->identity);
                     },
+                    'complete' => function (\common\models\Task $model) {
+                        return Yii::$app->taskService->canComplete($model, Yii::$app->user->identity);
+                    },
                     'delete' => function (\common\models\Task $model) {
                         return Yii::$app->taskService->canComplete($model, Yii::$app->user->identity);
                     },
                     'take' => function (\common\models\Task $model) {
-                        return Yii::$app->projectService->hasRole($model->project, Yii::$app->user->identity, \common\models\ProjectUser::ROLE_DEVELOPER);
+                        return Yii::$app->taskService->canTake($model, Yii::$app->user->identity);
                     },
                 ],
             ],

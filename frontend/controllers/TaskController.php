@@ -127,6 +127,24 @@ class TaskController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionTake($id)
+    {
+        $model = $this->findModel($id);
+
+        Yii::$app->taskService->takeTask($model, Yii::$app->user->identity);
+
+        return $this->redirect(['index']);
+    }
+
+    public function actionComplete($id)
+    {
+        $model = $this->findModel($id);
+
+        Yii::$app->taskService->completeTask($model);
+
+        return $this->redirect(['index']);
+    }
+
     /**
      * Finds the Task model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

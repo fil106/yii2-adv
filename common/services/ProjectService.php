@@ -3,6 +3,7 @@
 namespace common\services;
 
 use common\models\Project;
+use common\models\ProjectUser;
 use common\models\User;
 use yii\base\Component;
 use yii\base\Event;
@@ -35,6 +36,18 @@ class ProjectService extends Component
     public function hasRole(Project $project, User $user, $role)
     {
         return in_array($role, $this->getRoles($project, $user));
+    }
+
+    public function canUpdate(Project $project, User $user)
+    {
+        if($this->hasRole($project, $user, ProjectUser::ROLE_MANAGER) || $this->hasRole($project, $user, ProjectUser::ROLE_DEVELOPER))
+            return true;
+    }
+
+    public function canDelete(Project $project, User $user)
+    {
+        if($this->hasRole($project, $user, ProjectUser::ROLE_DEVELOPER))
+            return true;
     }
 
     /**

@@ -67,17 +67,17 @@ class Task extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'description' => 'Description',
-            'estimation' => 'Estimation',
-            'project_id' => 'Project ID',
-            'executor_id' => 'Executor ID',
-            'started_at' => 'Started At',
-            'completed_at' => 'Completed At',
-            'created_by'=> 'Created By',
-            'updated_by' => 'Updated By',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'title' => 'Загаловок',
+            'description' => 'Описание',
+            'estimation' => 'Мнение',
+            'project_id' => 'В проекте',
+            'executor_id' => 'Выполняет',
+            'started_at' => 'Начало',
+            'completed_at' => 'Конец',
+            'created_by'=> 'Создал',
+            'updated_by' => 'Обновил',
+            'created_at' => 'Создано',
+            'updated_at' => 'Обновлено',
         ];
     }
 

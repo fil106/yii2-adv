@@ -37,13 +37,27 @@ $this->params['breadcrumbs'][] = $this->title;
                     'description:ntext',
                     'estimation',
                     [
+                        'label' => 'Выполняет',
+                        'attribute' => 'executor_id',
+                        'value' => function ($model) {
+                            return Html::a($model->executor->username, ['user/view', 'id' => $model->executor->id]);
+                        },
+                        'format' => 'html',
+                    ],
+                    [
+                        'label' => 'Название проекта',
                         'attribute' => 'project_id',
                         'value' => function($model) {
                             return $model->project->title;
                         }
                     ],
+                    'started_at:datetime',
+                    'completed_at:datetime',
 
-                    ['class' => 'yii\grid\ActionColumn'],
+                    [
+                        'header' => 'Действия',
+                        'class' => 'yii\grid\ActionColumn'
+                    ],
                 ],
             ]); ?>
             <?php Pjax::end(); ?>

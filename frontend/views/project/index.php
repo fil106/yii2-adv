@@ -30,13 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => \common\models\Project::RELATION_PROJECT_USERS.'.role',
                 'value' => function(\common\models\Project $model) {
-                    return join(
-                        '<br>',
-                        $model
-                            ->getProjectUsers()
-                            ->select('role')
-                            ->where(['user_id' => Yii::$app->user->id])
-                            ->column());
+                    return join('<br>', Yii::$app->projectService->getRoles($model, Yii::$app->user->identity));
                 },
                 'format' => 'html'
             ],
@@ -64,7 +58,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'created_at:datetime',
             'updated_at:datetime',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'header' => 'Actions',
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view}'
+            ],
         ],
     ]); ?>
     <?php Pjax::end(); ?>

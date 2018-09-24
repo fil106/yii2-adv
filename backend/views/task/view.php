@@ -46,9 +46,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="box-footer">
                     <p class="pull-right">
 
-                        <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                        <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary btn-flat']) ?>
                         <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
-                            'class' => 'btn btn-danger',
+                            'class' => 'btn btn-danger btn-flat',
                             'data' => [
                                 'confirm' => 'Вы действительно хотите удалить задачу?',
                                 'method' => 'post',
