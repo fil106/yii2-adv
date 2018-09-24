@@ -45,6 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => 'Выполняет',
+                'filter' => \common\models\User::find()->onlyActive(),
                 'attribute' => 'executor_id',
                 'value' => function ($model) {
                     return Html::a($model->executor->username, ['user/view', 'id' => $model->executor->id]);

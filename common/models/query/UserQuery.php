@@ -14,8 +14,7 @@ class UserQuery extends \yii\db\ActiveQuery
 
     public function onlyActive()
     {
-        $query = User::find()->select('id');
-        return $this->andWhere(['status' => User::STATUS_ACTIVE]);
+        return $this->select('username')->andWhere(['status' => User::STATUS_ACTIVE])->column();
     }
 
     /**
