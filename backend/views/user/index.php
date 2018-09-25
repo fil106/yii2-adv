@@ -30,6 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'columns' => [
                     [
+                        'label' => 'Логин',
                         'attribute' => 'username',
                         'value' => function(\common\models\User $model) {
                             return Html::a($model->username, ['view', 'id' => $model->id]);
@@ -38,6 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     'email:email',
                     [
+                        'label' => 'Активен',
                         'attribute' => 'status',
                         'filter' => \common\models\User::STATUSES,
                         'value' => function(\common\models\User $model) {
@@ -48,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'updated_at:datetime',
                     [
                         'class' => 'yii\grid\ActionColumn',
-                        'header' => 'Actions'
+                        'header' => 'Действия'
                     ],
                 ],
             ]); ?>

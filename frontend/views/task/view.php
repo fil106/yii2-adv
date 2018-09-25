@@ -18,6 +18,24 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <p>
             <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+
+            <?php if(Yii::$app->taskService->canTake($model, Yii::$app->user->identity)) { ?>
+                <?= Html::a(\yii\bootstrap\Html::icon('hand-left'), ['take', 'id' => $model->id], [
+                    'class' => 'btn btn-primary',
+                    'data' => [
+                        'confirm' => 'Вы действительно хотите принять задачу?',
+                        'method' => 'post',
+                    ]]) ?>
+            <?php } ?>
+            <?php if(Yii::$app->taskService->canComplete($model, Yii::$app->user->identity)) { ?>
+                <?= Html::a(\yii\bootstrap\Html::icon('remove-circle') . ' Закончить', ['complete', 'id' => $model->id], [
+                    'class' => 'btn btn-primary',
+                    'data' => [
+                        'confirm' => 'Вы действительно хотите закончить задачу?',
+                        'method' => 'post',
+                    ]]) ?>
+            <?php } ?>
+
             <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
                 'class' => 'btn btn-danger',
                 'data' => [
@@ -35,12 +53,36 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'description:ntext',
             'estimation',
-            'project.title',
-            'executor.username',
+            [
+                'label' => 'В проекте',
+                'value' => function ($model) {
+                    return Html::a($model->project->title, ['project/view', 'id' => $model->project->id]);
+                },
+                'format' => 'html'
+            ],
+            [
+                'label' => 'Выполняет',
+                'value' => function ($model) {
+                    return Html::a($model->executor->username, ['project/view', 'id' => $model->executor->id]);
+                },
+                'format' => 'html'
+            ],
             'started_at:datetime',
             'completed_at:datetime',
-            'createdBy.username',
-            'updatedBy.username',
+            [
+                'label' => 'Создал',
+                'value' => function ($model) {
+                    return Html::a($model->createdBy->username, ['user/view', 'id' => $model->createdBy->id]);
+                },
+                'format' => 'html'
+            ],
+            [
+                'label' => 'Обновил',
+                'value' => function ($model) {
+                    return Html::a($model->updatedBy->username, ['user/view', 'id' => $model->updatedBy->id]);
+                },
+                'format' => 'html'
+            ],
             'created_at:datetime',
             'updated_at:datetime',
         ],

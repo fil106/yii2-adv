@@ -85,6 +85,22 @@ class User extends ActiveRecord implements IdentityInterface
             ['username', 'unique', 'on' => self::SCENARIO_ADMIN_CREATE],
         ];
     }
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'username' => 'Логин',
+            'password' => 'Пароль',
+            'email' => 'Email',
+            'status' => 'Активен',
+            'avatar' => 'Авакат',
+            'created_at' => 'Создано',
+            'updated_at' => 'Обновлено'
+        ];
+    }
     public function beforeSave($insert)
     {
         if (!parent::beforeSave($insert)) {

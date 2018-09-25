@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use nkovacs\datetimepicker\DateTimePicker;
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\TaskSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -62,13 +63,27 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'updated_by',
+                'filter' => \common\models\User::find()->onlyActive(),
                 'value' => function (\common\models\Task $model) {
                     return Html::a($model->updatedBy->username, ['user/view', 'id' => $model->updatedBy->id]);
                 },
                 'format' => 'html',
             ],
-            'started_at:datetime',
-            'completed_at:datetime',
+            [
+                'attribute' => 'started_at',
+                'value' => 'started_at',
+                'format' => 'datetime',
+            ],
+            [
+                'attribute' => 'completed_at',
+                'filter' => DateTimePicker::widget([
+                    'model' => $searchModel,
+                    'value' => $searchModel->completed_at,
+                    'attribute' => 'complete_at',
+                    'type' => 'date',
+                    'format' => 'd.m.Y',
+                ]),
+            ],
 
             [
                 'header' => 'Действия',

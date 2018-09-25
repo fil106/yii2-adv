@@ -24,7 +24,7 @@ class TaskService extends Component
 
     public function canComplete(Task $task, User $user)
     {
-        if($task->executor_id == $user->id)
+        if($task->executor_id == $user->id && is_null($task->completed_at))
             return true;
     }
 

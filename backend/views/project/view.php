@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'title',
                             'description:ntext',
                             [
+                                'label' => 'Задачи',
                                 'attribute' => 'Tasks',
                                 'value' => function (\common\models\Project $project) {
                                     return $project->getTasks()->count();
@@ -103,11 +104,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             'description:ntext',
                             'estimation',
                             [
-                                'attribute' => 'executor',
-                                'value' => function (\common\models\Task $model) {
+                                'label' => 'Выполняет',
+                                'attribute' => 'executor_id',
+                                'value' => function ($model) {
                                     return Html::a($model->executor->username, ['user/view', 'id' => $model->executor->id]);
                                 },
-                                'format' => 'html'
+                                'format' => 'html',
                             ],
                             [
                                 'attribute' => 'created_by',
