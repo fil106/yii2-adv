@@ -25,8 +25,7 @@
         "la-haute-societe/yii2-save-relations-behavior": "*",
         "unclead/yii2-multiple-input": "~2.0",
         "yii2mod/yii2-comments": "*",
-        "2amigos/yii2-date-time-picker-widget": "~1.0",
-        "nkovacs/yii2-datetimepicker": "*"
+        "jino5577/yii2-date-range-picker": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
-use nkovacs\datetimepicker\DateTimePicker;
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\TaskSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -37,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'description:ntext',
             'estimation',
             [
-                'label' => 'Название проекта',
+                'label' => 'В проекте',
                 'attribute' => 'project_id',
                 'value' => function($model) {
                     return Html::a($model->project->title, ['project/view', 'id' => $model->project->id]);
@@ -71,18 +70,45 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'started_at',
-                'value' => 'started_at',
-                'format' => 'datetime',
+                'headerOptions' => [
+                    'class' => 'col-md-2'
+                ],
+                'format' => 'date',
+                'value' => function ($model) {
+                    if (extension_loaded('intl')) {
+                        return $model->started_at;
+                    } else {
+                        return date('Y-m-d G:i:s', $model->started_at);
+                    }
+                },
+                'filter' => \jino5577\daterangepicker\DateRangePicker::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'started_at_range',
+                    'pluginOptions' => [
+                        'format' => 'd-m-Y',
+                        'autoUpdateInput' => false
+                    ]])
             ],
             [
                 'attribute' => 'completed_at',
-                'filter' => DateTimePicker::widget([
+                'headerOptions' => [
+                    'class' => 'col-md-2'
+                ],
+                'format' => 'date',
+                'value' => function ($model) {
+                    if (extension_loaded('intl')) {
+                        return $model->completed_at;
+                    } else {
+                        return date('Y-m-d G:i:s', $model->completed_at);
+                    }
+                },
+                'filter' => \jino5577\daterangepicker\DateRangePicker::widget([
                     'model' => $searchModel,
-                    'value' => $searchModel->completed_at,
-                    'attribute' => 'complete_at',
-                    'type' => 'date',
-                    'format' => 'd.m.Y',
-                ]),
+                    'attribute' => 'completed_at_range',
+                    'pluginOptions' => [
+                        'format' => 'd-m-Y',
+                        'autoUpdateInput' => false
+                    ]])
             ],
 
             [
@@ -117,7 +143,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         return Yii::$app->taskService->canComplete($model, Yii::$app->user->identity);
                     },
                     'delete' => function (\common\models\Task $model) {
-                        return Yii::$app->taskService->canComplete($model, Yii::$app->user->identity);
+                        return Yii::$app->taskService->canManage($model->project, Yii::$app->user->identity);
                     },
                     'take' => function (\common\models\Task $model) {
                         return Yii::$app->taskService->canTake($model, Yii::$app->user->identity);

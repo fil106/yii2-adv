@@ -12,6 +12,8 @@ use common\models\Task;
  */
 class TaskSearch extends Task
 {
+    public $started_at_range;
+    public $completed_at_range;
     /**
      * {@inheritdoc}
      */
@@ -19,7 +21,7 @@ class TaskSearch extends Task
     {
         return [
             [['id', 'estimation', 'project_id', 'executor_id', 'started_at', 'completed_at', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
-            [['title', 'description'], 'safe'],
+            [['title', 'description', 'started_at_range', 'completed_at_range'], 'safe'],
         ];
     }
 
@@ -55,6 +57,17 @@ class TaskSearch extends Task
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
+        }
+
+        /* started_at_range */
+        if(!empty($this->started_at_range) && strpos($this->started_at_range, '-') !== false) {
+            list($start_date, $end_date) = explode(' - ', $this->started_at_range);
+            $query->andFilterWhere(['between', 'task.started_at', strtotime($start_date), strtotime($end_date)]);
+        }
+        /* completed_at_range */
+        if(!empty($this->completed_at_range) && strpos($this->completed_at_range, '-') !== false) {
+            list($start_date, $end_date) = explode(' - ', $this->completed_at_range);
+            $query->andFilterWhere(['between', 'task.completed_at', strtotime($start_date), strtotime($end_date)]);
         }
 
         // grid filtering conditions
