@@ -33,8 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'format' => 'html'
             ],
-            'description:ntext',
-            'estimation',
+            //'description:ntext',
+            //'estimation',
             [
                 'label' => 'В проекте',
                 'attribute' => 'project_id',
@@ -71,44 +71,24 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'started_at',
                 'headerOptions' => [
-                    'class' => 'col-md-2'
+                    'class' => 'col-md-3'
                 ],
-                'format' => 'date',
-                'value' => function ($model) {
-                    if (extension_loaded('intl')) {
-                        return $model->started_at;
-                    } else {
-                        return date('Y-m-d G:i:s', $model->started_at);
-                    }
-                },
-                'filter' => \jino5577\daterangepicker\DateRangePicker::widget([
-                    'model' => $searchModel,
-                    'attribute' => 'started_at_range',
-                    'pluginOptions' => [
-                        'format' => 'd-m-Y',
-                        'autoUpdateInput' => false
-                    ]])
+                'format' => 'datetime',
+                'value' => 'started_at',
+                'filter' => \jino5577\daterangepicker\DateRangePicker::widget(
+                    Yii::$app->taskService->generateDataRangeConfig('started_at_range', $searchModel)
+                )
             ],
             [
                 'attribute' => 'completed_at',
                 'headerOptions' => [
-                    'class' => 'col-md-2'
+                    'class' => 'col-md-3'
                 ],
-                'format' => 'date',
-                'value' => function ($model) {
-                    if (extension_loaded('intl')) {
-                        return $model->completed_at;
-                    } else {
-                        return date('Y-m-d G:i:s', $model->completed_at);
-                    }
-                },
-                'filter' => \jino5577\daterangepicker\DateRangePicker::widget([
-                    'model' => $searchModel,
-                    'attribute' => 'completed_at_range',
-                    'pluginOptions' => [
-                        'format' => 'd-m-Y',
-                        'autoUpdateInput' => false
-                    ]])
+                'format' => 'datetime',
+                'value' => 'completed_at',
+                'filter' => \jino5577\daterangepicker\DateRangePicker::widget(
+                    Yii::$app->taskService->generateDataRangeConfig('completed_at_range', $searchModel)
+                )
             ],
 
             [
