@@ -45,19 +45,42 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'created_by',
-                'value' => function($model) {
-                    return $model->createdBy->username;
+                'filter' => \common\models\User::find()->onlyActive(),
+                'value' => function (\common\models\Project $model) {
+                    return Html::a($model->createdBy->username, ['user/view', 'id' => $model->createdBy->id]);
                 },
+                'format' => 'html',
             ],
             [
                 'attribute' => 'updated_by',
-                'value' => function($model) {
-                    return $model->updatedBy->username;
+                'filter' => \common\models\User::find()->onlyActive(),
+                'value' => function (\common\models\Project $model) {
+                    return Html::a($model->updatedBy->username, ['user/view', 'id' => $model->updatedBy->id]);
                 },
+                'format' => 'html',
             ],
-            'created_at:datetime',
-            'updated_at:datetime',
-
+            [
+                'attribute' => 'created_at',
+                'headerOptions' => [
+                    'class' => 'col-md-3'
+                ],
+                'format' => 'datetime',
+                'value' => 'created_at',
+                'filter' => \jino5577\daterangepicker\DateRangePicker::widget(
+                    Yii::$app->projectService->generateDataRangeConfig('created_at_range', $searchModel)
+                )
+            ],
+            [
+                'attribute' => 'updated_at',
+                'headerOptions' => [
+                    'class' => 'col-md-3'
+                ],
+                'format' => 'datetime',
+                'value' => 'updated_at',
+                'filter' => \jino5577\daterangepicker\DateRangePicker::widget(
+                    Yii::$app->projectService->generateDataRangeConfig('updated_at_range', $searchModel)
+                )
+            ],
             [
                 'header' => 'Actions',
                 'class' => 'yii\grid\ActionColumn',

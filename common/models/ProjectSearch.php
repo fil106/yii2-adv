@@ -12,6 +12,8 @@ use common\models\Project;
  */
 class ProjectSearch extends Project
 {
+    public $created_at_range;
+    public $updated_at_range;
     /**
      * {@inheritdoc}
      */
@@ -19,7 +21,7 @@ class ProjectSearch extends Project
     {
         return [
             [['id', 'active', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
-            [['title', 'description'], 'safe'],
+            [['title', 'description', 'created_at_range', 'updated_at_range'], 'safe'],
         ];
     }
 
@@ -55,6 +57,17 @@ class ProjectSearch extends Project
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
+        }
+
+        /* created_at_range */
+        if(!empty($this->created_at_range) && strpos($this->created_at_range, '-') !== false) {
+            list($start_date, $end_date) = explode(' - ', $this->created_at_range);
+            $query->andFilterWhere(['between', 'project.created_at', strtotime($start_date), strtotime($end_date)]);
+        }
+        /* updated_at_range */
+        if(!empty($this->updated_at_range) && strpos($this->updated_at_range, '-') !== false) {
+            list($start_date, $end_date) = explode(' - ', $this->updated_at_range);
+            $query->andFilterWhere(['between', 'project.updated_at', strtotime($start_date), strtotime($end_date)]);
         }
 
         // grid filtering conditions

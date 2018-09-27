@@ -45,7 +45,7 @@ class TaskService extends Component
      * DateRangePicker generate config for gridView filter
      * return array
      */
-    public function generateDataRangeConfig($attribute, $model, string $dateFormat = 'd-m-Y')
+    public function generateDataRangeConfig($attribute, $model, $dateFormat = 'd-m-Y')
     {
         $array = array();
         $array['model'] = $model;
@@ -60,7 +60,7 @@ class TaskService extends Component
                 {input}
             </div>';
         $array['pluginOptions']['format'] = $dateFormat;
-        $array['pluginOptions']['timePicker'] = true;
+//        $array['pluginOptions']['timePicker'] = true;
         $array['pluginOptions']['autoUpdateInput'] = false;
         $array['pluginOptions']['locale']['cancelLabel'] = 'Закрыть';
         $array['pluginOptions']['locale']['applyLabel'] = 'Применить';

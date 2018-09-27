@@ -64,4 +64,31 @@ class ProjectService extends Component
 
         $this->trigger(self::EVENT_ASSIGN_ROLE, $event);
     }
+
+    /**
+     * DateRangePicker generate config for gridView filter
+     * return array
+     */
+    public function generateDataRangeConfig($attribute, $model, $dateFormat = 'd-m-Y')
+    {
+        $array = array();
+        $array['model'] = $model;
+        $array['attribute'] = $attribute;
+        $array['locale'] = 'ru-RU';
+        $array['maskOptions']['mask'] = '99.99.9999 - 99.99.9999';
+        $array['template'] = '
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                 </span>
+                {input}
+            </div>';
+        $array['pluginOptions']['format'] = $dateFormat;
+//        $array['pluginOptions']['timePicker'] = true;
+        $array['pluginOptions']['autoUpdateInput'] = false;
+        $array['pluginOptions']['locale']['cancelLabel'] = 'Закрыть';
+        $array['pluginOptions']['locale']['applyLabel'] = 'Применить';
+
+        return $array;
+    }
 }

@@ -31,12 +31,36 @@ $this->params['breadcrumbs'][] = $this->title;
                             'title',
                             'description:ntext',
                             'estimation',
-                            'project.title',
-                            'executor.username',
-                            'started_at',
-                            'completed_at',
-                            'createdBy.username',
-                            'updatedBy.username',
+                            [
+                                'label' => 'В проекте',
+                                'value' => function ($model) {
+                                    return Html::a($model->project->title, ['project/view', 'id' => $model->project->id]);
+                                },
+                                'format' => 'html'
+                            ],
+                            [
+                                'label' => 'Выполняет',
+                                'value' => function ($model) {
+                                    return Html::a($model->executor->username, ['project/view', 'id' => $model->executor->id]);
+                                },
+                                'format' => 'html'
+                            ],
+                            'started_at:datetime',
+                            'completed_at:datetime',
+                            [
+                                'label' => 'Создал',
+                                'value' => function ($model) {
+                                    return Html::a($model->createdBy->username, ['user/view', 'id' => $model->createdBy->id]);
+                                },
+                                'format' => 'html'
+                            ],
+                            [
+                                'label' => 'Обновил',
+                                'value' => function ($model) {
+                                    return Html::a($model->updatedBy->username, ['user/view', 'id' => $model->updatedBy->id]);
+                                },
+                                'format' => 'html'
+                            ],
                             'created_at:datetime',
                             'updated_at:datetime',
                         ],

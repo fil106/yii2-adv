@@ -26,8 +26,20 @@ $this->params['breadcrumbs'][] = $this->title;
                     return \common\models\Project::STATUSES[$model->active];
                 }
             ],
-            'createdBy.username',
-            'updatedBy.username',
+            [
+                'label' => 'Создал',
+                'attribute' => 'created_by',
+                'value' => function($model) {
+                    return $model->createdBy->username;
+                },
+            ],
+            [
+                'label' => 'Обновил',
+                'attribute' => 'updated_by',
+                'value' => function($model) {
+                    return $model->updatedBy->username;
+                },
+            ],
             'created_at:datetime',
             'updated_at:datetime',
         ],
